@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Local Community Event Portal</title>
+  <style>
+    :root {
+      --bg-color: #e2bfe8;
+      --card-bg: #ffffff;
+      --primary: #5c6bc0;
+      --secondary: #90caf9;
+      --accent: #000;
+      --text-dark: #333333;
+      --text-light: #555555;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 18px;
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      padding: 2rem;
+      line-height: 1.7;
+    }
+
+    nav {
+      background-color: var(--primary);
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    h1, h2 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .highlight, .offer {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 1rem;
+      border-collapse: collapse;
+    }
+
+    table td {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    table img {
+      width: 120px;
+      height: auto;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    table img:hover {
+      transform: scale(1.05);
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button, input[type="submit"] {
+      padding: 12px 24px;
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover, input[type="submit"]:hover {
+      background-color: var(--secondary);
+    }
+
+    video {
+      border-radius: 8px;
+      max-width: 100%;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 8px;
+      margin-top: 2rem;
+    }
+  </style>
+
+  <script>
+    function enlargeImage(img) {
+      img.style.width = img.style.width === "300px" ? "120px" : "300px";
+    }
+
+    function showFee(select) {
+      const feeOutput = document.getElementById("fee");
+      feeOutput.textContent = select.value === "seminar" ? "Fee: ₹200" :
+                              select.value === "workshop" ? "Fee: ₹500" : "";
+    }
+
+    function countChars() {
+      const feedback = document.getElementById("feedback").value;
+      document.getElementById("charCount").textContent = "Characters: " + feedback.length;
+    }
+
+    function validatePhone(input) {
+      const valid = /^\d{10}$/.test(input.value);
+      if (!valid) {
+        alert("Please enter a valid 10-digit phone number.");
+        input.focus();
+      }
+    }
+
+    function clearPreferences() {
+      document.getElementById("registerForm").reset();
+      document.getElementById("fee").textContent = "";
+      document.getElementById("charCount").textContent = "Characters: 0";
+      document.getElementById("output").value = "";
+    }
+
+    function videoReady() {
+      console.log("Promo video ready.");
+    }
+
+    function findEvents() {
+      const output = document.getElementById("geoOutput");
+      if (!navigator.geolocation) {
+        output.textContent = "Geolocation not supported.";
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          output.textContent = `Your Location: Latitude ${pos.coords.latitude}, Longitude ${pos.coords.longitude}`;
+        },
+        () => {
+          output.textContent = "Unable to retrieve your location.";
+        }
+      );
+    }
+  </script>
+
+</head>
+
+<body>
+  <!-- Welcome Section -->
+  <section id="home">
+    <h1>Welcome to the Community Portal!</h1>
+    <p class="highlight">
+      <span class="offer">Limited Time Offer!</span><br>
+      Stay updated on local events!
+    </p>
+  </section>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="help.html" target="_blank">Help</a></li>
+    </ul>
+  </nav>
+
+  <!-- Event Gallery -->
+  <section id="events">
+    <h2>Event Gallery</h2>
+    <table>
+      <caption>Past Events</caption>
+      <tr>
+        <td><img src="music_fest.jpg" alt="Music Fest" ondblclick="enlargeImage(this)"></td>
+        <td><img src="tech_expo.jpeg" alt="Tech Expo" ondblclick="enlargeImage(this)"></td>
+        <td><img src="food_fair.jpeg" alt="Food Fair" ondblclick="enlargeImage(this)"></td>
+      </tr>
+      <tr>
+        <td><img src="cultural_fest.jpg" alt="Culture Fest" ondblclick="enlargeImage(this)"></td>
+        <td><img src="book_launch.jpeg" alt="Book Launch" ondblclick="enlargeImage(this)"></td>
+        <td><img src="art_show.jpeg" alt="Art Show" ondblclick="enlargeImage(this)"></td>
+      </tr>
+    </table>
+  </section>
+
+  <!-- Registration Form -->
+  <section id="contact">
+    <h2>Register for an Event</h2>
+    <form id="registerForm">
+      <label>Name:
+        <input type="text" name="name" placeholder="Your Name" required>
+      </label>
+
+      <label>Email:
+        <input type="email" name="email" placeholder="Your Email" required>
+      </label>
+
+      <label>Date:
+        <input type="date" name="date" required>
+      </label>
+
+      <label>Event Type:
+        <select id="eventType" onchange="showFee(this)">
+          <option value="seminar">Seminar</option>
+          <option value="workshop">Workshop</option>
+        </select>
+      </label>
+
+      <p id="fee"></p>
+
+      <label>Phone:
+        <input type="text" name="phone" onblur="validatePhone(this)">
+      </label>
+
+      <label>Message:
+        <textarea id="feedback" rows="4" onkeyup="countChars()"></textarea>
+      </label>
+
+      <p id="charCount">Characters: 0</p>
+
+      <input type="submit" value="Submit">
+      <output id="output"></output>
+    </form>
+    <button onclick="clearPreferences()">Clear Preferences</button>
+  </section>
+
+  <!-- Promo Video -->
+  <section>
+    <h2>Event Promo</h2>
+    <video controls oncanplay="videoReady()">
+      <source src="promo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
+  <!-- Geolocation -->
+  <section>
+    <h2>Find Nearby Events</h2>
+    <button onclick="findEvents()">Find Nearby Events</button>
+    <p id="geoOutput"></p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Local City Council</p>
+  </footer>
+
+</body>
+
+</html>
